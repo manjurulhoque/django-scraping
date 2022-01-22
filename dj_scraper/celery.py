@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import os
 from celery import Celery
 from django.conf import settings
+from celery.schedules import crontab
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dj_scraper.settings')
@@ -11,8 +12,20 @@ app = Celery('dj_scraper')
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+# app.conf.enable_utc = False
 
 
 @app.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
+
+
+app.conf.beat_schedule = {
+    'sample-task': {
+        'task': 'scrapers.tasks.sample_task',
+        # 'schedule': crontab(minute="*/1"),
+        'schedule': 30.0,
+        'args': (),
+    },
+}
+# app.conf.timezone = 'UTC'
