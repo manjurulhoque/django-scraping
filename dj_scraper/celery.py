@@ -20,12 +20,12 @@ def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
 
-app.conf.beat_schedule = {
-    'sample-task': {
-        'task': 'scrapers.tasks.sample_task',
-        # 'schedule': crontab(minute="*/1"),
-        'schedule': 30.0,
-        'args': (),
-    },
-}
+# app.conf.beat_schedule = {
+#     'sample-task': {
+#         'task': 'scrapers.tasks.sample_task',
+#         # 'schedule': crontab(minute="*/1"),
+#         'schedule': 30.0,
+#         'args': (),
+#     },
+# }
 # app.conf.timezone = 'UTC'
