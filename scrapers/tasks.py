@@ -7,5 +7,5 @@ logger = get_task_logger(__name__)
 
 @shared_task
 def sample_task():
-    # call_command('crawl')
-    logger.info('Running simple task')
+    call_command('crawl')
+    # logger.info('Running simple task')
