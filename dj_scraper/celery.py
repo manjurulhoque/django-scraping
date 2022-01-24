@@ -13,11 +13,16 @@ app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 # app.conf.enable_utc = False
 
+# solution for https://stackoverflow.com/a/49448256/5559590
+app.conf.update(
+    worker_max_tasks_per_child=1,
+    broker_pool_limit=None
+)
+
 
 @app.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
-
 
 # app.conf.beat_schedule = {
 #     'sample-task': {
